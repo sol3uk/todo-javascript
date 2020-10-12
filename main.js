@@ -1,4 +1,4 @@
-const addTodoButton = $("#add-todo");
+const addTodoButton = $('#add-todo');
 
 /**
  * function getTodos()
@@ -71,7 +71,7 @@ function handleAdd() {
  */
 function handleDelete(id) {
   const todos = getTodos();
-  const index = $.inArray(id, todos);
+  const index = $.inArray(id, todos.map(todo => todo.id));
   todos.splice(index, 1);
   setTodos(todos);
 }
