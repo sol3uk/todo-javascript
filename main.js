@@ -17,7 +17,7 @@ function getTodos() {
 
 /**
  * function setTodo()
- * @param {Object} todo Todo we want to save
+ * @param {Object<{ id: String, name: String }>} todo Todo we want to save
  * Returns nothing
  */
 function setTodo(todo) {
@@ -34,6 +34,10 @@ function setTodo(todo) {
   updateTodoList();
 }
 
+/**
+ * function setTodos(todos)
+ * @param {Array<Object<{ id: String, name: String }>>} todos
+ */
 function setTodos(todos) {
   // Set the new todos to localStorage
   localStorage.setItem('todos', JSON.stringify(todos));
@@ -42,6 +46,10 @@ function setTodos(todos) {
   updateTodoList();
 }
 
+/**
+ * function handleAdd()
+ * Adds a todo
+ */
 function handleAdd() {
   const todoInput = document.getElementById('todo-name');
   const todoName = todoInput.value;
@@ -55,6 +63,10 @@ function handleAdd() {
   }
 }
 
+/**
+ * function handleDelete(id)
+ * @param {String} id The id of the todo
+ */
 function handleDelete(id) {
   const todos = getTodos();
   const index = todos.findIndex((todo) => todo.id === id);
@@ -62,6 +74,11 @@ function handleDelete(id) {
   setTodos(todos);
 }
 
+/**
+ * function isValidateTodoName(name)
+ * @param {String} name The name of the todo
+ * Returns true or false if the todo name is valid
+ */
 function isValidateTodoName(name) {
   const nameWithoutSpaces = name.trim();
   if (name.length >= 1 && nameWithoutSpaces.length >= 1) {
@@ -70,6 +87,10 @@ function isValidateTodoName(name) {
   return false;
 }
 
+/**
+ * function updateTodoList()
+ * Gets the todos from localStorage and then sets it to the UI
+ */
 function updateTodoList() {
   const todoList = document.getElementById('todo-list');
   todoList.textContent = '';
@@ -86,9 +107,14 @@ function updateTodoList() {
   });
 }
 
+/**
+ * function createTodo(name, id);
+ * @param {String} name The name of the todo
+ * @param {String} id The id of the todo
+ * Returns list items for the todo
+ */
 function createTodo(name, id) {
   const listItem = document.createElement('li');
-  listItem.dataset.id = id;
   listItem.classList.add('mdc-list-item', 'between');
 
   const itemRipple = document.createElement('span');
