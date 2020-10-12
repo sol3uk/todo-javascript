@@ -1,4 +1,4 @@
-const addTodoButton = document.getElementById('add-todo');
+const addTodoButton = $("#add-todo");
 
 /**
  * function getTodos()
@@ -21,6 +21,7 @@ function getTodos() {
  * Returns nothing
  */
 function setTodo(todo) {
+
   // Get todos from localStorage
   const todos = getTodos();
 
@@ -51,15 +52,16 @@ function setTodos(todos) {
  * Adds a todo
  */
 function handleAdd() {
-  const todoInput = document.getElementById('todo-name');
-  const todoName = todoInput.value;
+  const todoInput = $('#todo-name');
+  const todoName = todoInput.val();
+
   if (isValidateTodoName(todoName)) {
     const todo = {
       name: todoName,
       id: uuidv4(),
     };
     setTodo(todo);
-    todoInput.value = '';
+    todoInput.val('');
   }
 }
 
@@ -69,7 +71,7 @@ function handleAdd() {
  */
 function handleDelete(id) {
   const todos = getTodos();
-  const index = todos.findIndex((todo) => todo.id === id);
+  const index = $.inArray(id, todos);
   todos.splice(index, 1);
   setTodos(todos);
 }
@@ -92,19 +94,22 @@ function isValidateTodoName(name) {
  * Gets the todos from localStorage and then sets it to the UI
  */
 function updateTodoList() {
-  const todoList = document.getElementById('todo-list');
-  todoList.textContent = '';
+  const todoList = $('#todo-list');
+  todoList.text('');
 
   const todos = getTodos();
-  if (todos.length === 0) {
-    const noTodos = document.createTextNode('No todos');
-    todoList.append(noTodos);
+
+  if (todos.length > 0) {
+    $.each(todos, (i, todo) => {
+
+      const todoElement = createTodoHTML(todo.name, todo.id);
+
+      todoList.append(todoElement);
+    });
+  } else {
+    todoList.text('No todos');
     return null;
   }
-  todos.forEach((todo) => {
-    const todoElement = createTodo(todo.name, todo.id);
-    todoList.append(todoElement);
-  });
 }
 
 /**
@@ -113,22 +118,14 @@ function updateTodoList() {
  * @param {String} id The id of the todo
  * Returns list items for the todo
  */
-function createTodo(name, id) {
-  const listItem = document.createElement('li');
-  listItem.classList.add('mdc-list-item', 'between');
+function createTodoHTML(name, id) {
+  const listItem = $('<li>').addClass('mdc-list-item between');
+  const itemRipple = $('<span>').addClass('mdc-list-item__ripple');
+  const itemText = $('<span>').addClass('mdc-list-item__text').text(name);
+  const itemIcon = $('<span>').addClass('deleteButton material-icons mdc-fab__icon').text('delete');
 
-  const itemRipple = document.createElement('span');
-  itemRipple.classList.add('mdc-list-item__ripple');
-
-  const itemText = document.createElement('span');
-  itemText.classList.add('mdc-list-item__text');
-  itemText.textContent = name;
-
-  const itemIcon = document.createElement('span');
-  itemIcon.classList.add('material-icons', 'mdc-fab__icon');
-  itemIcon.textContent = 'delete';
-
-  itemIcon.onclick = () => handleDelete(id);
+  //we can just give it a value and not worry about onclick events
+  itemIcon.val(id);
 
   listItem.append(itemRipple, itemText, itemIcon);
 
@@ -136,12 +133,21 @@ function createTodo(name, id) {
 }
 
 function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0,
+      v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
 }
 
-updateTodoList();
 
-addTodoButton.addEventListener('click', handleAdd);
+$(document).ready(function () {
+  updateTodoList();
+
+  addTodoButton.click(handleAdd);
+
+  //Separates out click events from button creation
+  $('body').on('click', '.deleteButton', function (e) {
+    handleDelete($(this).val());
+  });
+});
