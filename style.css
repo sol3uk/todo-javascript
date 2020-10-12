@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mdc-top-app-bar {
+  position: unset;
+}

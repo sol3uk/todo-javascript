@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO - JavaScript</title>
+
+    <!-- Material UI -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+
+    <!-- Material ICONS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+  <body>
+    <!-- top app bar -->
+    <header class="mdc-top-app-bar">
+      <div class="mdc-top-app-bar__row">
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+          <span class="mdc-top-app-bar__title">Todo App</span>
+        </section>
+      </div>
+    </header>
+
+    <!-- Input and add -->
+    <div class="center">
+      <label class="mdc-text-field mdc-text-field--filled mdc-text-field--no-label">
+        <span class="mdc-text-field__ripple"></span>
+        <input id="todo-name" class="mdc-text-field__input" type="text" placeholder="Todo name?" aria-label="todo input">
+        <span class="mdc-line-ripple"></span>
+      </label>
+      <button class="mdc-fab mdc-fab--mini mdc-fab--touch" id="add-todo">
+        <span class="material-icons mdc-fab__icon">add</span>
+      </button>
+    </div>
+
+    <!-- Todo list -->
+    <ul class="mdc-list" id="todo-list">
+    </ul>
+
+    <!-- Material JavaScript -->
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="./main.js"></script>
+  </body>
+</html>
